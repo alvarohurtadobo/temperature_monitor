@@ -8,26 +8,26 @@
 #include <Wire.h>
 #include <max6675.h>
 
-// Project identifiers
+// Identificadores BLE
 #define DEVICE_NAME "ESP32_DELTA_01"
 #define SERVICE_UUID "12345678-1234-1234-1234-1234567890ab"
 #define CHAR_UUID_NOTIFY "87654321-4321-4321-4321-ba0987654321"
 
-// Thermocouple pins
+// Pines termocuplas (MAX6675)
 static const int thermoCSTT = 23;  // TT probe CS
 static const int thermoCSTA = 18;  // TA probe CS
 static const int thermoCSTG = 17;  // TG probe CS
 static const int thermoCLK = 5;    // SCK/CLK
 static const int thermoDO = 19;    // SO/DO
 
-// Live readings
+// Lecturas en tiempo real
 static float TKTG;  // Bean temperature
 static float TKTA;  // Exhaust air temperature
 static float TKTT;  // Optional third probe
 static float E;     // TT percentage (legacy)
 static float DT;    // Delta between TA and TG
 
-// WiFi
+// WiFi (credenciales de ejemplo; mover a secrets si aplica)
 static const char* ssid = "Maxwell";
 static const char* password = "299792458ms";
 
@@ -47,15 +47,15 @@ class MyServerCallbacks : public NimBLEServerCallbacks {
   }
 };
 
-// Modbus data array (shared values)
+// Modbus data array (valores compartidos)
 static uint16_t au16data[16] = {
   120, 145, 177, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0xFFFF
 };
 
-// Modbus slave @ ID 1 using Serial
+// Modbus slave @ ID 1 usando Serial
 static Modbus slave(1, Serial, 0);
 
-// Thermocouple readers
+// Lectores MAX6675
 static MAX6675 thermocoupleTG(thermoCLK, thermoCSTG, thermoDO);
 // static MAX6675 thermocoupleTA(thermoCLK, thermoCSTA, thermoDO);
 // static MAX6675 thermocoupleTT(thermoCLK, thermoCSTT, thermoDO);
@@ -120,7 +120,7 @@ void setup() {
   slave.begin(19200);
   slave.start();
 
-  // BLE
+  // BLE (notificaciones a clientes)
   NimBLEDevice::init(DEVICE_NAME);
   pServer = NimBLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
@@ -136,7 +136,7 @@ void setup() {
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->start();
 
-  // WiFi + WebSocket
+  // WiFi + WebSocket (Artisan)
   WiFi.begin(ssid, password);
   Serial.println("\nConectando a WiFi...");
   while (WiFi.status() != WL_CONNECTED) {
@@ -156,6 +156,7 @@ void loop() {
   webSocket.loop();
   counter++;
 
+  // Lecturas reales (habilitar cuando estén conectadas las sondas)
   // TKTG = thermocoupleTG.readCelsius();
   // TKTA = thermocoupleTA.readCelsius();
   // TKTT = thermocoupleTT.readCelsius();
@@ -167,12 +168,12 @@ void loop() {
   au16data[1] = static_cast<uint16_t>(TKTA);
   au16data[2] = static_cast<uint16_t>(TKTT);
 
-  // Legacy simulated data
+  // Datos simulados (legacy) para pruebas sin sensores
   TKTG = 100 + millis() / 10000;
   TKTA = 156 + millis() / 50000;
   TKTT = 170 + millis() / 2000;
 
-  // LCD layout
+  // Layout LCD
   lcd.setCursor(2, 0);
   lcd.print("DELTA TOSTADORAS ");
   lcd.setCursor(15, 1);
@@ -209,6 +210,7 @@ void loop() {
   }
   serializedData += "]";
 
+  // Notifica por BLE cada ~1.2 s (150 ms * 8)
   if (counter % 8 == 0) {
     pCharacteristic->setValue(
       reinterpret_cast<uint8_t*>(const_cast<char*>(serializedData.c_str())),
@@ -216,6 +218,7 @@ void loop() {
     pCharacteristic->notify();
   }
 
+  // Log por Serial cada ~4.5 s (150 ms * 30)
   if (counter % 30 == 0) {
     Serial.println();
     Serial.println("Last notified: " + serializedData);
