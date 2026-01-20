@@ -41,12 +41,12 @@ board = esp32dev
 framework = arduino
 monitor_speed = 115200
 lib_deps =
-  bblanchon/ArduinoJson
-  marcoschwartz/LiquidCrystal_I2C
-  smarmengol/Modbus-Master-Slave-for-Arduino
-  h2zero/NimBLE-Arduino
-  links2004/WebSockets
-  adafruit/MAX6675 library
+  https://github.com/bblanchon/ArduinoJson.git
+  https://github.com/marcoschwartz/LiquidCrystal_I2C.git
+  https://github.com/smarmengol/Modbus-Master-Slave-for-Arduino.git
+  https://github.com/h2zero/NimBLE-Arduino.git
+  https://github.com/Links2004/arduinoWebSockets.git
+  https://github.com/adafruit/MAX6675-library.git
 ```
 
 ### Install dependencies
@@ -60,3 +60,6 @@ pio run
 pio run -t upload
 pio device monitor
 ```
+
+## Documentation
+- Arduino IDE removal guide: `ARDUINO_DEPENDENCY_REMOVAL.md`
