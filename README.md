@@ -18,3 +18,39 @@ Use MAX6675 modules for the thermocouples and wire them as follows:
 - **CS for TT probe** → GPIO 23
 
 All probes share the same **CLK** and **DO** lines; only the **CS** line changes per probe.
+
+## Run with PlatformIO (based on `main.cpp`)
+1. Install PlatformIO (VS Code extension or CLI).
+2. Create a `platformio.ini` in the project root and add the libraries listed below.
+3. Build and upload the firmware.
+
+### Required libraries
+- `ArduinoJson`
+- `LiquidCrystal_I2C`
+- `ModbusRtu`
+- `NimBLE-Arduino`
+- `arduinoWebSockets`
+- `MAX6675`
+
+### Example `platformio.ini`
+```ini
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+monitor_speed = 115200
+lib_deps =
+  bblanchon/ArduinoJson
+  marcoschwartz/LiquidCrystal_I2C
+  smarmengol/Modbus-Master-Slave-for-Arduino
+  h2zero/NimBLE-Arduino
+  links2004/WebSockets
+  adafruit/MAX6675 library
+```
+
+### Build / upload / monitor
+```bash
+pio run
+pio run -t upload
+pio device monitor
+```
