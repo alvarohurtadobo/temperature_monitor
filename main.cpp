@@ -27,9 +27,15 @@ static float TKTT;  // Optional third probe
 static float E;     // TT percentage (legacy)
 static float DT;    // Delta between TA and TG
 
-// WiFi (credenciales de ejemplo; mover a secrets si aplica)
-static const char* ssid = "SSID";
-static const char* password = "PASS";
+// WiFi (configurado vía variables de entorno en PlatformIO)
+#ifndef WIFI_SSID
+#define WIFI_SSID "SSID"
+#endif
+#ifndef WIFI_PASS
+#define WIFI_PASS "PASS"
+#endif
+static const char* ssid = WIFI_SSID;
+static const char* password = WIFI_PASS;
 
 // WebSocket server (Artisan)
 static WebSocketsServer webSocket(81);

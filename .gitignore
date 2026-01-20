@@ -23,5 +23,10 @@
 .DS_Store
 Thumbs.db
 
+# Env files
+.env
+.env.*
+!.env.example
+
 # Legacy sources (ignored entirely)
 legacy/

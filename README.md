@@ -41,17 +41,26 @@ board = esp32dev
 framework = arduino
 monitor_speed = 115200
 lib_deps =
-  https://github.com/bblanchon/ArduinoJson.git
-  https://github.com/marcoschwartz/LiquidCrystal_I2C.git
-  https://github.com/smarmengol/Modbus-Master-Slave-for-Arduino.git
-  https://github.com/h2zero/NimBLE-Arduino.git
-  https://github.com/Links2004/arduinoWebSockets.git
-  https://github.com/adafruit/MAX6675-library.git
+  https://github.com/bblanchon/ArduinoJson.git # bblanchon/ArduinoJson
+  https://github.com/marcoschwartz/LiquidCrystal_I2C.git # marcoschwartz/LiquidCrystal_I2C
+  https://github.com/smarmengol/Modbus-Master-Slave-for-Arduino.git # smarmengol/Modbus-Master-Slave-for-Arduino
+  https://github.com/h2zero/NimBLE-Arduino.git # h2zero/NimBLE-Arduino
+  https://github.com/Links2004/arduinoWebSockets.git # links2004/WebSockets
+  https://github.com/adafruit/MAX6675-library.git # adafruit/MAX6675 library
 ```
 
 ### Install dependencies
 ```bash
 pio pkg install
+```
+
+### WiFi credentials (environment variables)
+This project reads WiFi credentials from environment variables at build time.
+You can export them directly or place them in a `.env` file (see `.env.example`):
+
+```bash
+export WIFI_SSID="your_ssid"
+export WIFI_PASS="your_password"
 ```
 
 ### Build / upload / monitor
@@ -60,6 +69,3 @@ pio run
 pio run -t upload
 pio device monitor
 ```
-
-## Documentation
-- Arduino IDE removal guide: `ARDUINO_DEPENDENCY_REMOVAL.md`
