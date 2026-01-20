@@ -21,16 +21,17 @@ All probes share the same **CLK** and **DO** lines; only the **CS** line changes
 
 ## Run with PlatformIO (based on `main.cpp`)
 1. Install PlatformIO (VS Code extension or CLI).
-2. Create a `platformio.ini` in the project root and add the libraries listed below.
-3. Build and upload the firmware.
+2. Use the existing `platformio.ini` in the project root.
+3. Install dependencies from `platformio.ini` (command below).
+4. Build and upload the firmware.
 
-### Required libraries
-- `ArduinoJson`
-- `LiquidCrystal_I2C`
-- `ModbusRtu`
-- `NimBLE-Arduino`
-- `arduinoWebSockets`
-- `MAX6675`
+### Required libraries (from `platformio.ini`)
+- `ArduinoJson` (GitHub)
+- `LiquidCrystal_I2C` (GitHub)
+- `Modbus-Master-Slave-for-Arduino` (GitHub)
+- `NimBLE-Arduino` (GitHub)
+- `arduinoWebSockets` (GitHub)
+- `MAX6675-library` (GitHub)
 
 ### Example `platformio.ini`
 ```ini
@@ -46,6 +47,11 @@ lib_deps =
   h2zero/NimBLE-Arduino
   links2004/WebSockets
   adafruit/MAX6675 library
+```
+
+### Install dependencies
+```bash
+pio pkg install
 ```
 
 ### Build / upload / monitor
