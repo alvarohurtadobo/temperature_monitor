@@ -28,8 +28,8 @@ static float E;     // TT percentage (legacy)
 static float DT;    // Delta between TA and TG
 
 // WiFi (credenciales de ejemplo; mover a secrets si aplica)
-static const char* ssid = "Maxwell";
-static const char* password = "299792458ms";
+static const char* ssid = "SSID";
+static const char* password = "PASS";
 
 // WebSocket server (Artisan)
 static WebSocketsServer webSocket(81);
