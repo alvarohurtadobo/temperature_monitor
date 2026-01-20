@@ -1,0 +1,27 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/
+
+# Arduino / build artifacts
+*.elf
+*.bin
+*.hex
+*.map
+*.o
+*.a
+*.d
+*.obj
+*.dep
+*.lst
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Legacy sources (ignored entirely)
+legacy/
