@@ -19,8 +19,8 @@ Use MAX6675 modules for the thermocouples and wire them as follows:
 
 All probes share the same **CLK** and **DO** lines; only the **CS** line changes per probe.
 
-## Run with PlatformIO (based on `main.cpp`)
-1. Install PlatformIO (VS Code extension or CLI).
+## Run with PlatformIO (based on `src/main.cpp`)
+1. Install PlatformIO (see `PIO_GUIDE.md`).
 2. Use the existing `platformio.ini` in the project root.
 3. Install dependencies from `platformio.ini` (command below).
 4. Build and upload the firmware.
@@ -69,3 +69,6 @@ pio run
 pio run -t upload
 pio device monitor
 ```
+
+## Documentation
+- PlatformIO install/use guide: `PIO_GUIDE.md`
