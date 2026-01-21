@@ -19,6 +19,9 @@
 # Logs
 *.log
 
+# Compilation database
+compile_commands.json
+
 # OS / editor
 .DS_Store
 Thumbs.db
