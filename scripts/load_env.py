@@ -3,6 +3,10 @@ import os
 
 
 def _load_env_file(path: Path) -> None:
+    # Defaults (pueden ser sobrescritos por .env)
+    if "SERVER_URL" not in os.environ:
+        os.environ["SERVER_URL"] = "http://192.168.1.100:3000/api/store-json"
+
     if not path.exists():
         return
 
