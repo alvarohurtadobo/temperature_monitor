@@ -66,7 +66,8 @@ static void enviarDatosAlServidor(float energy);
 
 void setup() {
   Serial.begin(115200);
-  delay(1000);
+  delay(500);
+  Serial.println("\n\nsolar_ble boot");
 
   pinMode(LED_NEGATIVO, OUTPUT);
   pinMode(LED_0_10, OUTPUT);
@@ -82,8 +83,27 @@ void setup() {
   lcd.backlight();
   lcd.setCursor(0, 0);
   lcd.print("Starting...");
+  Serial.println("LCD OK");
 
-  // BLE (solo BLE, sin WebSockets)
+  // WiFi PRIMERO (coexistencia WiFi+BLE requiere WiFi antes que BLE en ESP32)
+  WiFi.begin(ssid, password);
+  Serial.print("Conectando WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("WiFi OK, IP: ");
+  Serial.println(WiFi.localIP());
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("IP: ");
+  lcd.print(WiFi.localIP());
+  delay(1500);
+
+  // BLE DESPUÉS de WiFi
+  Serial.println("Iniciando BLE...");
   NimBLEDevice::init(DEVICE_NAME);
   pServer = NimBLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
@@ -98,24 +118,8 @@ void setup() {
   NimBLEAdvertising* pAdvertising = NimBLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->start();
-  Serial.println("BLE iniciado: " DEVICE_NAME);
+  Serial.println("BLE OK: " DEVICE_NAME);
 
-  // WiFi
-  WiFi.begin(ssid, password);
-  Serial.print("Conectando a WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println();
-  Serial.print("Conectado! IP: ");
-  Serial.println(WiFi.localIP());
-
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("IP: ");
-  lcd.print(WiFi.localIP());
-  delay(2000);
   lcd.clear();
 }
 
