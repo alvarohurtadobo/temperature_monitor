@@ -58,7 +58,7 @@ void setup() {
   lcd.init();
   lcd.backlight();
   lcd.setCursor(0, 0);
-  lcd.print("Inicializando...");
+  lcd.print("Starting...");
 
   WiFi.begin(ssid, password);
   Serial.print("Conectando a WiFi");
